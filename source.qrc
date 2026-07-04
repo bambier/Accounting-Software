@@ -2,9 +2,6 @@
     <qresource prefix="/">
         <file>src/gui/styles/qtquickcontrols2.conf</file>
     </qresource>
-    <qresource prefix="styles">
-        <file alias="default-style">src/gui/styles/styles.qss</file>
-    </qresource>
     <qresource prefix="/fonts">
         <file alias="Vazirmatn-RD-UI-FD-Black">src/gui/resources/fonts/vazirmatn/Vazirmatn-RD-UI-FD-Black.ttf</file>
         <file alias="Vazirmatn-RD-UI-FD-Bold">src/gui/resources/fonts/vazirmatn/Vazirmatn-RD-UI-FD-Bold.ttf</file>
@@ -16,30 +13,32 @@
         <file alias="Vazirmatn-RD-UI-FD-SemiBold">src/gui/resources/fonts/vazirmatn/Vazirmatn-RD-UI-FD-SemiBold.ttf</file>
         <file alias="Vazirmatn-RD-UI-FD-Thin">src/gui/resources/fonts/vazirmatn/Vazirmatn-RD-UI-FD-Thin.ttf</file>
     </qresource>
-    <qresource prefix="img-icon">
-        <file alias="icon">src/gui/resources/imgs/icon.png</file>
-        <file alias="app-ico">src/gui/resources/imgs/icon.ico</file>
-    </qresource>
     <qresource prefix="icons">
-        <file alias="dashboard.svg">src/gui/resources/svg/dashboard-svgrepo-com.svg</file>
-        <file alias="table.svg">src/gui/resources/svg/table-svgrepo-com.svg</file>
-        <file alias="document.svg">src/gui/resources/svg/document-duplication-svgrepo-com.svg</file>
         <file alias="chart.svg">src/gui/resources/svg/chart-mixed-svgrepo-com.svg</file>
-        <file alias="register.svg">src/gui/resources/svg/register-svgrepo-com.svg</file>
-        <file alias="list.svg">src/gui/resources/svg/list-1-svgrepo-com.svg</file>
-        <file alias="export.svg">src/gui/resources/svg/export-svgrepo-com.svg</file>
-        <file alias="import.svg">src/gui/resources/svg/import-svgrepo-com.svg</file>
-        <file alias="preferences.svg">src/gui/resources/svg/preferences-svgrepo-com.svg</file>
         <file alias="contact-phonebook-support.svg">src/gui/resources/svg/contact-phonebook-support-svgrepo-com.svg</file>
-        <file alias="help.svg">src/gui/resources/svg/help-svgrepo-com.svg</file>
-        <file alias="info-square.svg">src/gui/resources/svg/info-square-svgrepo-com.svg</file>
-        <file alias="file-question-alt.svg">src/gui/resources/svg/file-question-alt-svgrepo-com.svg</file>
+        <file alias="dashboard.svg">src/gui/resources/svg/dashboard-svgrepo-com.svg</file>
         <file alias="data.svg">src/gui/resources/svg/data-svgrepo-com.svg</file>
-        <file alias="plugin-2.svg">src/gui/resources/svg/plugin-2-svgrepo-com.svg</file>
-        <file alias="right-arrow-alt.svg">src/gui/resources/svg/right-arrow-alt-svgrepo-com.svg</file>
         <file alias="delete-2.svg">src/gui/resources/svg/delete-2-svgrepo-com.svg</file>
+        <file alias="document.svg">src/gui/resources/svg/document-duplication-svgrepo-com.svg</file>
         <file alias="down-2-svgrepo-com.svg">src/gui/resources/svg/down-2-svgrepo-com.svg</file>
+        <file alias="export.svg">src/gui/resources/svg/export-svgrepo-com.svg</file>
+        <file alias="file-question-alt.svg">src/gui/resources/svg/file-question-alt-svgrepo-com.svg</file>
+        <file alias="help.svg">src/gui/resources/svg/help-svgrepo-com.svg</file>
+        <file alias="import.svg">src/gui/resources/svg/import-svgrepo-com.svg</file>
+        <file alias="info-square.svg">src/gui/resources/svg/info-square-svgrepo-com.svg</file>
+        <file alias="list.svg">src/gui/resources/svg/list-1-svgrepo-com.svg</file>
+        <file alias="plugin-2.svg">src/gui/resources/svg/plugin-2-svgrepo-com.svg</file>
+        <file alias="preferences.svg">src/gui/resources/svg/preferences-svgrepo-com.svg</file>
+        <file alias="register.svg">src/gui/resources/svg/register-svgrepo-com.svg</file>
+        <file alias="right-arrow-alt.svg">src/gui/resources/svg/right-arrow-alt-svgrepo-com.svg</file>
+        <file alias="table.svg">src/gui/resources/svg/table-svgrepo-com.svg</file>
         <file alias="up-2-svgrepo-com.svg">src/gui/resources/svg/up-2-svgrepo-com.svg</file>
     </qresource>
-    <qresource prefix="translations"/>
+    <qresource prefix="img-icon">
+        <file alias="app-ico">src/gui/resources/imgs/icon.ico</file>
+        <file alias="icon">src/gui/resources/imgs/icon.png</file>
+    </qresource>
+    <qresource prefix="styles">
+        <file alias="default-style">src/gui/styles/styles.qss</file>
+    </qresource>
 </RCC>
