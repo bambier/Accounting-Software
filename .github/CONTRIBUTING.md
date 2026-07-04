@@ -15,7 +15,7 @@ Please be respectful and professional when interacting with other contributors.
 Constructive criticism is welcome.
 Personal attacks, harassment, discrimination, or hostile behavior will not be tolerated.
 
-For more info see [here]().
+For more info see [here](/.github/CODE_OF_CONDUCT.md).
 
 ---
 
