@@ -1,0 +1,683 @@
+    direction TB
+
+    %% ==================== UI VIEWS ====================
+    namespace UI {
+        class MainWindow {
+            -QStackedWidget stacked_widget
+            -NavigationSidebar sidebar
+            -QStatusBar status_bar
+            -QMenuBar menu_bar
+            -QToolBar tool_bar
+            -User current_user
+            +__init__()
+            +setup_ui()
+            +switch_page(page_name)
+            +show_status_message(msg)
+            +closeEvent(event)
+        }
+
+        class LoginDialog {
+            -QLineEdit username_edit
+            -QLineEdit password_edit
+            -QPushButton login_button
+            -QPushButton cancel_button
+            -QLabel error_label
+            +__init__()
+            +validate_credentials() bool
+            +on_login_clicked()
+        }
+
+        class NavigationSidebar {
+            -QListWidget nav_list
+            -QPushButton logout_button
+            +__init__()
+            +add_nav_item(name, icon, page_name)
+            +current_selected() str
+        }
+
+        class DashboardPage {
+            -QLabel welcome_label
+            -QGroupBox summary_group
+            -QTableView recent_transactions_table
+            -QChartView chart_view
+            +__init__()
+            +refresh_dashboard()
+            +load_recent_transactions()
+            +load_summary_stats()
+        }
+
+        class InvoicesPage {
+            -QStackedWidget invoice_stacked
+            -InvoiceListView list_view
+            -InvoiceFormView form_view
+            -ReceiptScanView scan_view
+            +__init__()
+            +show_list()
+            +show_form(invoice_id=None)
+            +show_scan()
+            +refresh_list()
+        }
+
+        class InvoiceListView {
+            -QLineEdit search_edit
+            -QComboBox status_filter
+            -QTableView table_view
+            -QPushButton add_button
+            -QPushButton edit_button
+            -QPushButton delete_button
+            -QPushButton print_button
+            -InvoiceTableModel table_model
+            +__init__()
+            +setup_ui()
+            +load_invoices()
+            +on_add_clicked()
+            +on_edit_clicked()
+            +on_delete_clicked()
+            +on_search_changed(text)
+        }
+
+        class InvoiceFormView {
+            -QLineEdit customer_edit
+            -QDateEdit date_edit
+            -QDateEdit due_date_edit
+            -QTableView lines_table
+            -QLineEdit total_label
+            -QComboBox tax_combo
+            -QPushButton save_button
+            -QPushButton cancel_button
+            -int invoice_id
+            +__init__(parent, invoice_id=None)
+            +load_invoice_data()
+            +validate_form() bool
+            +save_invoice()
+            +add_line()
+            +remove_line()
+        }
+
+        class ReceiptScanView {
+            -QLabel image_label
+            -QPushButton scan_button
+            -QTextEdit extracted_text
+            -QPushButton match_button
+            -QComboBox invoice_match_combo
+            +__init__()
+            +scan_receipt()
+            +extract_text()
+            +match_to_invoice()
+        }
+
+        class AccountingPage {
+            -QTabWidget tabs
+            -ChartOfAccountsView chart_view
+            -JournalEntryView journal_view
+            -FinancialReportsView reports_view
+            +__init__()
+        }
+
+        class ChartOfAccountsView {
+            -QTreeView account_tree
+            -QPushButton add_account
+            -QPushButton edit_account
+            -QPushButton delete_account
+            -AccountTreeModel tree_model
+            +__init__()
+            +load_accounts()
+            +on_add_account()
+        }
+
+        class JournalEntryView {
+            -QTableView entries_table
+            -QPushButton new_entry
+            -QDateTimeEdit from_date
+            -QDateTimeEdit to_date
+            -JournalEntryTableModel table_model
+            +__init__()
+            +load_entries()
+            +on_new_entry()
+        }
+
+        class FinancialReportsView {
+            -QComboBox report_type_combo
+            -QDateEdit from_date
+            -QDateEdit to_date
+            -QPushButton generate_button
+            -QComboBox format_combo
+            -QTextEdit preview
+            +__init__()
+            +generate_report()
+            +export_pdf()
+            +export_excel()
+        }
+
+        class InventoryPage {
+            -QStackedWidget inventory_stacked
+            -ItemListView item_list
+            -ItemFormView item_form
+            -SupplierListView supplier_list
+            +__init__()
+        }
+
+        class ItemListView {
+            -QLineEdit search_edit
+            -QTableView items_table
+            -QPushButton add_button
+            -QPushButton edit_button
+            -QPushButton delete_button
+            -ItemTableModel table_model
+            +__init__()
+            +load_items()
+        }
+
+        class ItemFormView {
+            -QLineEdit sku_edit
+            -QLineEdit name_edit
+            -QTextEdit description
+            -QLineEdit price_edit
+            -QSpinBox quantity_spin
+            -QComboBox supplier_combo
+            -QPushButton save_button
+            -QPushButton cancel_button
+            -int item_id
+            +__init__(parent, item_id=None)
+            +load_item()
+            +save_item()
+        }
+
+        class SupplierListView {
+            -QTableView supplier_table
+            -QPushButton add_button
+            -QPushButton edit_button
+            -SupplierTableModel table_model
+            +__init__()
+        }
+
+        class PayrollPage {
+            -QStackedWidget payroll_stacked
+            -EmployeeListView employee_list
+            -PayrollRunView payroll_run
+            +__init__()
+        }
+
+        class EmployeeListView {
+            -QTableView employee_table
+            -QPushButton add_button
+            -QPushButton edit_button
+            -QPushButton delete_button
+            -EmployeeTableModel table_model
+            +__init__()
+        }
+
+        class PayrollRunView {
+            -QDateEdit period_start
+            -QDateEdit period_end
+            -QPushButton calculate_button
+            -QPushButton process_button
+            -QTableView payroll_table
+            -PayrollTableModel table_model
+            +__init__()
+            +calculate_payroll()
+            +process_payroll()
+        }
+
+        class BankPage {
+            -QStackedWidget bank_stacked
+            -BankFeedView feed_view
+            -ReconciliationView recon_view
+            +__init__()
+        }
+
+        class BankFeedView {
+            -QPushButton sync_button
+            -QLabel last_sync_label
+            -QTableView transaction_table
+            -QPushButton reconcile_button
+            -BankTransactionTableModel table_model
+            +__init__()
+            +sync_feed()
+            +load_transactions()
+        }
+
+        class ReconciliationView {
+            -QDateEdit statement_date
+            -QLineEdit ending_balance
+            -QTableView cleared_transactions
+            -QPushButton reconcile_button
+            +__init__()
+            +reconcile()
+        }
+
+        class SettingsPage {
+            -QTabWidget settings_tabs
+            -GeneralSettingsView general_view
+            -ThemeSettingsView theme_view
+            -BackupSettingsView backup_view
+            -UserManagementView user_view
+            +__init__()
+        }
+
+        class GeneralSettingsView {
+            -QComboBox db_type_combo
+            -QLineEdit db_path_edit
+            -QComboBox currency_combo
+            -QGroupBox tax_group
+            -QPushButton save_button
+            +__init__()
+            +load_settings()
+            +save_settings()
+        }
+
+        class ThemeSettingsView {
+            -QComboBox theme_combo
+            -QPushButton apply_button
+            -QTextEdit preview_edit
+            +__init__()
+            +apply_theme()
+            +load_themes()
+        }
+
+        class BackupSettingsView {
+            -QCheckBox auto_backup_check
+            -QSpinBox backup_interval
+            -QLineEdit backup_path_edit
+            -QPushButton backup_now_button
+            +__init__()
+            +configure_auto_backup()
+            +run_backup_now()
+        }
+
+        class UserManagementView {
+            -QTableView user_table
+            -QPushButton add_user
+            -QPushButton edit_user
+            -QPushButton delete_user
+            -UserTableModel table_model
+            +__init__()
+            +load_users()
+            +on_add_user()
+        }
+    }
+
+    %% ==================== CONTROLLERS ====================
+    namespace Controllers {
+        class BaseController {
+            -DatabaseService db_service
+            -User current_user
+            +__init__(db_service)
+            +handle_exception(e)
+        }
+
+        class InvoiceController {
+            +create_invoice(data) int
+            +update_invoice(invoice_id, data)
+            +delete_invoice(invoice_id)
+            +get_invoice(invoice_id) Invoice
+            +get_all_invoices(filters) list~Invoice~
+            +generate_pdf(invoice_id) str
+            +generate_excel(invoice_id) str
+            +process_receipt(file_path) Receipt
+        }
+
+        class TransactionController {
+            +create_transaction(entries) int
+            +post_transaction(transaction_id)
+            +get_transactions(account_id, from, to) list
+            +get_balance(account_id) decimal
+        }
+
+        class AccountController {
+            +create_account(data) int
+            +update_account(account_id, data)
+            +delete_account(account_id)
+            +get_chart_of_accounts() list
+        }
+
+        class ReportController {
+            +generate_balance_sheet(date) FinancialReport
+            +generate_income_statement(from, to) FinancialReport
+            +generate_trial_balance(date) FinancialReport
+            +export_report(report, format) bytes
+        }
+
+        class InventoryController {
+            +create_item(data) int
+            +update_item(item_id, data)
+            +delete_item(item_id)
+            +adjust_stock(item_id, quantity)
+            +get_low_stock_items() list
+        }
+
+        class PayrollController {
+            +calculate_payroll(employee_id, start, end) Payroll
+            +process_payroll(payroll_id)
+            +get_employees() list
+        }
+
+        class BankController {
+            +sync_bank_feed(account_id)
+            +get_unreconciled_transactions() list
+            +reconcile(account_id, statement_balance) bool
+        }
+
+        class UserController {
+            +authenticate(username, password) User
+            +create_user(data) int
+            +update_user(user_id, data)
+            +delete_user(user_id)
+            +change_password(user_id, new_password)
+        }
+
+        class ThemeController {
+            +get_available_themes() list
+            +apply_theme(theme_name)
+            +get_current_theme() Theme
+            +load_qss(theme_name) str
+        }
+    }
+
+    %% ==================== SERVICES ====================
+    namespace Services {
+        class DatabaseService {
+            -sqlalchemy.engine engine
+            -Session session
+            +connect(db_type, connection_string)
+            +disconnect()
+            +backup(path)
+            +restore(path)
+            +execute_query(query) list
+            +save(obj)
+            +delete(obj)
+            +get_all(model) list
+        }
+
+        class EncryptionService {
+            -Fernet fernet
+            +encrypt(data) bytes
+            +decrypt(encrypted) bytes
+            +hash_password(password) str
+            +verify_password(password, hash) bool
+        }
+
+        class BackupService {
+            -DatabaseService db_service
+            -EncryptionService encryption_service
+            +create_backup(encrypt=True) Backup
+            +restore_backup(backup_id)
+            +schedule_auto_backup(interval_hours)
+            +get_backup_history() list
+        }
+
+        class ReportService {
+            -pdf_generator
+            -excel_generator
+            +generate_pdf(report_data) bytes
+            +generate_excel(report_data) bytes
+        }
+
+        class OCRService {
+            -tesseract_api
+            +extract_text(image_path) str
+            +parse_receipt(text) dict
+        }
+
+        class BankFeedService {
+            -plaid_api / custom_api
+            +fetch_transactions(account, from_date, to_date) list
+            +sync_account(account_id)
+        }
+    }
+
+    %% ==================== MODELS (Business Entities) ====================
+    namespace Models {
+        class Account {
+            +int id
+            +string name
+            +AccountType type
+            +string currency_code
+            +decimal opening_balance
+            +decimal current_balance
+            +int parent_account_id
+            +bool is_active
+            +datetime created_at
+            +get_balance() decimal
+        }
+
+        class Transaction {
+            +int id
+            +string reference_no
+            +datetime date
+            +string description
+            +decimal total_debit
+            +decimal total_credit
+            +bool is_posted
+            +int created_by
+            +datetime posted_at
+            +datetime created_at
+            +post()
+            +reverse()
+        }
+
+        class TransactionEntry {
+            +int id
+            +int transaction_id
+            +int account_id
+            +decimal debit
+            +decimal credit
+            +string description
+        }
+
+        class Tax {
+            +int id
+            +string name
+            +decimal rate
+            +TaxType type
+            +bool is_default
+            +string country_code
+            +calculate_tax(amount) decimal
+        }
+
+        class FinancialReport {
+            +int id
+            +string name
+            +ReportType type
+            +datetime generated_at
+            +FileFormat format
+            +string file_path
+            +string parameters
+            +generate_pdf()
+            +generate_excel()
+        }
+
+        class Currency {
+            +string code
+            +string name
+            +decimal exchange_rate
+            +datetime rate_date
+        }
+
+        class Invoice {
+            +int id
+            +string invoice_number
+            +datetime date
+            +datetime due_date
+            +int customer_id
+            +decimal total_amount
+            +decimal tax_amount
+            +decimal discount
+            +InvoiceStatus status
+            +string currency_code
+            +int created_by
+            +datetime created_at
+            +send()
+            +mark_paid()
+            +generate_pdf()
+        }
+
+        class InvoiceLine {
+            +int id
+            +int invoice_id
+            +int product_id
+            +string description
+            +decimal quantity
+            +decimal unit_price
+            +decimal total
+            +decimal tax_rate
+        }
+
+        class Receipt {
+            +int id
+            +string file_path
+            +string extracted_text
+            +int invoice_id
+            +datetime date
+            +decimal total
+            +string vendor
+            +ReceiptStatus status
+            +datetime created_at
+            +process_ocr()
+            +match_invoice()
+        }
+
+        class InventoryItem {
+            +int id
+            +string sku
+            +string name
+            +string description
+            +string category
+            +decimal unit_price
+            +int quantity_on_hand
+            +int reorder_level
+            +string location
+            +int supplier_id
+            +datetime created_at
+            +update_stock(qty)
+            +is_low_stock() bool
+        }
+
+        class Supplier {
+            +int id
+            +string name
+            +string contact_person
+            +string email
+            +string phone
+            +string address
+        }
+
+        class Customer {
+            +int id
+            +string name
+            +string contact_person
+            +string email
+            +string phone
+            +string address
+        }
+
+        class Employee {
+            +int id
+            +int user_id
+            +string employee_id
+            +string department
+            +string position
+            +datetime hire_date
+            +decimal salary
+            +decimal pay_rate
+            +string tax_code
+        }
+
+        class Payroll {
+            +int id
+            +int employee_id
+            +datetime pay_period_start
+            +datetime pay_period_end
+            +decimal gross_pay
+            +json deductions
+            +decimal net_pay
+            +datetime pay_date
+            +PayrollStatus status
+            +calculate_pay()
+            +process_payment()
+        }
+
+        class BankFeed {
+            +int id
+            +int bank_account_id
+            +datetime last_sync_date
+            +list~BankTransaction~ transactions
+            +sync()
+            +reconcile()
+        }
+
+        class BankTransaction {
+            +int id
+            +int bank_feed_id
+            +datetime date
+            +string description
+            +decimal amount
+            +decimal balance
+            +string category
+            +bool is_reconciled
+        }
+
+        class User {
+            +int id
+            +string username
+            +string password_hash
+            +string email
+            +string full_name
+            +UserRole role
+            +datetime created_at
+            +datetime last_login
+            +bool is_active
+            +authenticate(password) bool
+            +has_permission(action) bool
+        }
+
+        class Role {
+            +int id
+            +string name
+            +list~Permission~ permissions
+            +has_permission(permission) bool
+        }
+
+        class Permission {
+            +int id
+            +string name
+            +string description
+        }
+
+        class Backup {
+            +int id
+            +datetime backup_date
+            +string file_path
+            +int size
+            +BackupStatus status
+            +run_auto_backup()
+        }
+
+        class Theme {
+            +int id
+            +string name
+            +string qss_stylesheet
+            +bool is_active
+            +apply_theme()
+            +load_from_file(path)
+        }
+
+        class SystemSettings {
+            +int id
+            +string key
+            +string value
+            +string description
+        }
+    }
+
+    %% ==================== DATA MODELS (Qt Table Models) ====================
+    namespace DataModels {
+        class AccountTableModel {
+            -QAbstractTableModel
+            -list~Account~ accounts
+            +rowCount() int
+            +columnCount() int
+            +data(index, role) QVariant
+            +setData(index, value, role) bool
+            +flags(index) Qt.ItemFlags
+            +
