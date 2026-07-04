@@ -3,7 +3,7 @@ Contributing to AccounterPro
 ===============================
 
 Thank you for your interest in contributing to **AccounterPro** - the free
-open-source accounting software for small businesses[reference:4]. We welcome
+open-source accounting software for small businesses. We welcome
 contributions of all kinds: code, documentation, bug reports, design ideas, and
 translations.
 
@@ -55,9 +55,9 @@ Project Architecture
 ====================
 
 The software follows a **Model-View-Controller (MVC)** pattern, built with
-**PySide6** for native cross-platform performance[reference:5]. The full architecture
+**PySide6** for native cross-platform performance. The full architecture
 is documented in the following files, available in the ``STRUCTURE/`` folder of
-the repository[reference:6][reference:7]:
+the repository:
 
 - **`STRUCTURE/STRUCTURE.mermaid`** - Complete class diagram covering all
   models, controllers, services, and UI views (core accounting, business
@@ -253,7 +253,7 @@ to report bugs or request features. Please include:
 Licensing & DCO
 ===============
 
-This project is licensed under **strict open-source terms**[reference:8]. By
+This project is licensed under **strict open-source terms**. By
 contributing, you agree that your contributions will be licensed under the same
 terms.
 
