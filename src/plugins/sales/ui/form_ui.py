@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'form.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.8.2
+## Created by: Qt User Interface Compiler version 6.11.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -24,7 +24,7 @@ class Ui_Form(object):
     def setupUi(self, Form):
         if not Form.objectName():
             Form.setObjectName(u"Form")
-        Form.resize(824, 832)
+        Form.resize(1117, 877)
         self.Invoices = QWidget()
         self.Invoices.setObjectName(u"Invoices")
         self.vboxLayout = QVBoxLayout(self.Invoices)
@@ -40,7 +40,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollarea_qwidget = QWidget()
         self.scrollarea_qwidget.setObjectName(u"scrollarea_qwidget")
-        self.scrollarea_qwidget.setGeometry(QRect(0, 0, 854, 961))
+        self.scrollarea_qwidget.setGeometry(QRect(0, 0, 1079, 921))
         self.scrollarea_qwidget_layout = QVBoxLayout(self.scrollarea_qwidget)
         self.scrollarea_qwidget_layout.setObjectName(u"scrollarea_qwidget_layout")
         self.scrollarea_qwidget_layout.setContentsMargins(0, 0, 0, -1)
@@ -97,13 +97,6 @@ class Ui_Form(object):
         self._2.setContentsMargins(0, 0, 0, 0)
         self.frame_title_sub = QWidget(self.widget)
         self.frame_title_sub.setObjectName(u"frame_title_sub")
-        sizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Expanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.frame_title_sub.sizePolicy().hasHeightForWidth())
-        self.frame_title_sub.setSizePolicy(sizePolicy)
-        self.frame_title_sub.setMinimumSize(QSize(200, 200))
-        self.frame_title_sub.setMaximumSize(QSize(400, 16777215))
         self.verticalLayout = QVBoxLayout(self.frame_title_sub)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
@@ -122,21 +115,16 @@ class Ui_Form(object):
 
         self.frame_btn_logo = QWidget(self.widget)
         self.frame_btn_logo.setObjectName(u"frame_btn_logo")
-        sizePolicy.setHeightForWidth(self.frame_btn_logo.sizePolicy().hasHeightForWidth())
-        self.frame_btn_logo.setSizePolicy(sizePolicy)
-        self.frame_btn_logo.setMinimumSize(QSize(200, 200))
-        self.frame_btn_logo.setMaximumSize(QSize(300, 300))
         self.horizontalLayout = QHBoxLayout(self.frame_btn_logo)
         self.horizontalLayout.setSpacing(0)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.select_logo_btn = QPushButton(self.frame_btn_logo)
         self.select_logo_btn.setObjectName(u"select_logo_btn")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-        sizePolicy1.setHorizontalStretch(0)
-        sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.select_logo_btn.sizePolicy().hasHeightForWidth())
-        self.select_logo_btn.setSizePolicy(sizePolicy1)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.select_logo_btn.sizePolicy().hasHeightForWidth())
+        self.select_logo_btn.setSizePolicy(sizePolicy)
         self.select_logo_btn.setFont(font)
         icon = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.InsertImage))
         self.select_logo_btn.setIcon(icon)
@@ -149,9 +137,6 @@ class Ui_Form(object):
 
         self.frame_logo = QFrame(self.widget)
         self.frame_logo.setObjectName(u"frame_logo")
-        sizePolicy.setHeightForWidth(self.frame_logo.sizePolicy().hasHeightForWidth())
-        self.frame_logo.setSizePolicy(sizePolicy)
-        self.frame_logo.setMinimumSize(QSize(200, 200))
         self.frame_logo.setFrameShape(QFrame.Shape.NoFrame)
         self.frame_logo.setLineWidth(0)
         self.verticalLayout_2 = QVBoxLayout(self.frame_logo)
@@ -168,10 +153,6 @@ class Ui_Form(object):
 
         self.frame_address = QWidget(self.widget)
         self.frame_address.setObjectName(u"frame_address")
-        sizePolicy.setHeightForWidth(self.frame_address.sizePolicy().hasHeightForWidth())
-        self.frame_address.setSizePolicy(sizePolicy)
-        self.frame_address.setMinimumSize(QSize(200, 200))
-        self.frame_address.setMaximumSize(QSize(600, 16777215))
         self.verticalLayout_3 = QVBoxLayout(self.frame_address)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
@@ -208,6 +189,10 @@ class Ui_Form(object):
 
         self._2.addWidget(self.frame_address)
 
+        self._2.setStretch(0, 4)
+        self._2.setStretch(1, 1)
+        self._2.setStretch(2, 3)
+        self._2.setStretch(3, 4)
 
         self.frame_invoice_layout.addWidget(self.widget)
 
@@ -227,41 +212,38 @@ class Ui_Form(object):
 
         self.widget_2 = QWidget(self.frame_billing)
         self.widget_2.setObjectName(u"widget_2")
-        self.widget_2.setMaximumSize(QSize(818, 16777215))
-        self.verticalLayout_6 = QVBoxLayout(self.widget_2)
-        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
+        self.horizontalLayout_5 = QHBoxLayout(self.widget_2)
+        self.horizontalLayout_5.setSpacing(0)
+        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
+        self.horizontalLayout_5.setContentsMargins(0, 0, 0, 0)
         self.widget_4 = QWidget(self.widget_2)
         self.widget_4.setObjectName(u"widget_4")
-        self.widget_4.setMaximumSize(QSize(850, 16777215))
         self.horizontalLayout_4 = QHBoxLayout(self.widget_4)
         self.horizontalLayout_4.setSpacing(10)
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
         self.horizontalLayout_4.setContentsMargins(0, 0, 0, 0)
         self.frame_btn_costumer_2 = QWidget(self.widget_4)
         self.frame_btn_costumer_2.setObjectName(u"frame_btn_costumer_2")
-        sizePolicy1.setHeightForWidth(self.frame_btn_costumer_2.sizePolicy().hasHeightForWidth())
-        self.frame_btn_costumer_2.setSizePolicy(sizePolicy1)
-        self.frame_btn_costumer_2.setMinimumSize(QSize(100, 100))
-        self.horizontalLayout_2 = QHBoxLayout(self.frame_btn_costumer_2)
-        self.horizontalLayout_2.setSpacing(0)
-        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_4 = QVBoxLayout(self.frame_btn_costumer_2)
+        self.verticalLayout_4.setSpacing(0)
+        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
         self.select_costumer_btn = QPushButton(self.frame_btn_costumer_2)
         self.select_costumer_btn.setObjectName(u"select_costumer_btn")
-        sizePolicy1.setHeightForWidth(self.select_costumer_btn.sizePolicy().hasHeightForWidth())
-        self.select_costumer_btn.setSizePolicy(sizePolicy1)
         icon1 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.ContactNew))
         self.select_costumer_btn.setIcon(icon1)
         self.select_costumer_btn.setIconSize(QSize(64, 64))
 
-        self.horizontalLayout_2.addWidget(self.select_costumer_btn)
+        self.verticalLayout_4.addWidget(self.select_costumer_btn)
+
+        self.label_3 = QLabel(self.frame_btn_costumer_2)
+        self.label_3.setObjectName(u"label_3")
+        self.label_3.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.verticalLayout_4.addWidget(self.label_3)
 
 
-        self.horizontalLayout_4.addWidget(self.frame_btn_costumer_2)
-
-        self.verticalSpacer = QSpacerItem(50, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
-
-        self.horizontalLayout_4.addItem(self.verticalSpacer)
+        self.horizontalLayout_4.addWidget(self.frame_btn_costumer_2, 0, Qt.AlignmentFlag.AlignVCenter)
 
         self.date_layout_widget = QWidget(self.widget_4)
         self.date_layout_widget.setObjectName(u"date_layout_widget")
@@ -328,8 +310,15 @@ class Ui_Form(object):
         self.horizontalLayout_4.addWidget(self.widget_6)
 
 
-        self.verticalLayout_6.addWidget(self.widget_4)
+        self.horizontalLayout_5.addWidget(self.widget_4)
 
+        self.widget_5 = QWidget(self.widget_2)
+        self.widget_5.setObjectName(u"widget_5")
+
+        self.horizontalLayout_5.addWidget(self.widget_5)
+
+        self.horizontalLayout_5.setStretch(0, 6)
+        self.horizontalLayout_5.setStretch(1, 6)
 
         self.frame_billing_layout.addWidget(self.widget_2)
 
@@ -357,6 +346,10 @@ class Ui_Form(object):
 
         self.horizontalLayout_3.addWidget(self.add_to_record_btn)
 
+        self.horizontalLayout_3.setStretch(0, 4)
+        self.horizontalLayout_3.setStretch(1, 3)
+        self.horizontalLayout_3.setStretch(2, 3)
+        self.horizontalLayout_3.setStretch(3, 1)
 
         self.frame_billing_layout.addWidget(self.widget_3)
 
@@ -422,7 +415,7 @@ class Ui_Form(object):
         self.address_input.setPlaceholderText(QCoreApplication.translate("Form", u"Address", None))
         self.country_input.setPlaceholderText(QCoreApplication.translate("Form", u"Country", None))
         self.label_billing.setText(QCoreApplication.translate("Form", u"Billing", None))
-        self.select_costumer_btn.setText(QCoreApplication.translate("Form", u"Add Customer", None))
+        self.label_3.setText(QCoreApplication.translate("Form", u"Add Customer", None))
         self.label.setText(QCoreApplication.translate("Form", u" Invoice Date", None))
         self.dateEdit.setDisplayFormat(QCoreApplication.translate("Form", u"yyyy/MM/dd", None))
         self.label_2.setText(QCoreApplication.translate("Form", u" Due Date", None))

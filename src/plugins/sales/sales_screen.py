@@ -28,6 +28,8 @@ class SalesScreen(QTabWidget):
         self.ui.save_btn.clicked.connect(self.save)
         self.ui.select_logo_btn.clicked.connect(self.select_logo)
         self.ui.add_to_record_btn.clicked.connect(self.add_record)
+        self.ui.select_costumer_btn.clicked.connect(self.select_costumer)
+
 
         self.ui.tableView.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)  # type: ignore
         # self.ui.tableView.setEditTriggers(QAbstractItemView.NoEditTriggers)  # type: ignore
@@ -143,3 +145,9 @@ class SalesScreen(QTabWidget):
 
         except Exception as e:
             logger.error(f"Error deleting row:\n{e}")
+
+
+
+
+    def select_costumer(self):
+        print("Select costumer")
