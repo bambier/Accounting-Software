@@ -1,0 +1,89 @@
+name: Build Linux Application
+
+on:
+    workflow_dispatch:
+    push:
+        tags:
+            - "v*"
+
+permissions:
+    contents: read
+
+jobs:
+    build-linux:
+        name: Build Linux Application
+        runs-on: ubuntu-22.04
+        # NOTE: standalone Linux binaries link against the runner's glibc.
+        # Build on the OLDEST glibc you intend to support (ubuntu-22.04 here)
+        # so the result also runs on newer distros.
+
+        env:
+            # main.py uses sibling absolute imports (e.g. `from app import
+            # Application`), so src/ must be importable at compile time.
+            PYTHONPATH: src
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Setup Python
+              uses: actions/setup-python@v5
+              with:
+                  python-version: "3.14"
+                  architecture: "x64"
+
+            - name: Install system build dependencies
+              run: |
+                  sudo apt-get update
+                  sudo apt-get install -y patchelf ccache
+
+            - name: Install dependencies
+              run: |
+                  python -m pip install --upgrade pip
+                  python -m pip install --upgrade -r noversion.requirements.txt
+
+            - name: Build with Nuitka
+              uses: Nuitka/Nuitka-Action@main
+              with:
+                  nuitka-version: main
+                  script-name: src/main.py
+                  mode: standalone
+                  enable-plugins: pyside6
+                  include-module: |
+                      app
+                      main_window
+                  include-package: |
+                      controllers
+                      data_models
+                      models
+                      plugins
+                      services
+                      ui
+                      utils
+                      widgets
+                  output-filename: Ganzabara
+                  output-dir: build_output
+                  linux-icon: src/resources/images/icon.png
+                  company-name: Vahrka
+                  product-name: Ganzabara
+                  file-version: 1.0.0.0
+                  product-version: 1.0.0.0
+                  file-description: "Ganzabara Accounting Software"
+                  copyright: "Copyright © 2025 Vahrka. All rights reserved."
+                  lto: yes
+                  assume-yes-for-downloads: true
+
+            - name: Package standalone folder
+              run: |
+                  cd build_output
+                  DIST_DIR=$(find . -maxdepth 1 -type d -name "*.dist" | head -n 1)
+                  echo "Dist folder: $DIST_DIR"
+                  chmod +x "$DIST_DIR"/Ganzabara
+                  tar -czf "Ganzabara-linux-x86_64.tar.gz" -C "$(dirname "$DIST_DIR")" "$(basename "$DIST_DIR")"
+
+            - name: Upload Artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: Ganzabara-Linux-x86_64
+                  path: build_output/Ganzabara-linux-x86_64.tar.gz
+                  if-no-files-found: error

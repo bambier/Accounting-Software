@@ -2,11 +2,23 @@ name: Build Windows Application
 
 on:
   workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
 
 jobs:
   build-windows:
+    name: Build Windows Application
     runs-on: windows-latest
-    
+
+    env:
+      # main.py uses sibling absolute imports (e.g. `from app import
+      # Application`), so src/ must be importable at compile time.
+      PYTHONPATH: src
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -14,59 +26,57 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
-          architecture: 'x64'
+          python-version: "3.14"
+          architecture: "x64"
 
-      - name: Install dependencies (without patchelf)
+      - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install fpdf==1.7.2 Jinja2==3.1.6 MarkupSafe==3.0.2
-          pip install numpy==2.2.3 ordered-set==4.1.0
-          pip install pandas==2.2.3 peewee==3.17.9 PySide6==6.8.2.1
-          pip install python-dateutil==2.9.0.post0 pytz==2025.1
-          pip install PyYAML==6.0.2 six==1.17.0 tzdata==2025.1 zstandard==0.23.0
+          python -m pip install --upgrade -r noversion.requirements.txt
 
-      - name: Generate or create missing translation files
-        run: |
-          # Create dummy .qm files if .ts files exist but .qm missing
-          Get-ChildItem src/i18n -Filter *.ts -ErrorAction SilentlyContinue | ForEach-Object {
-            $qm_path = $_.FullName -replace '\.ts$', '.qm'
-            if (-not (Test-Path $qm_path)) {
-              Write-Host "Generating $qm_path"
-              pyside6-lrelease $_.FullName -qm $qm_path
-            }
-          }
-          # If no .ts and no .qm, create empty files to avoid RCC error
-          if ((Get-ChildItem src/i18n -Filter *.qm -ErrorAction SilentlyContinue).Count -eq 0) {
-            Write-Host "Creating dummy .qm files"
-            "en", "fa", "de" | ForEach-Object {
-              [System.IO.File]::WriteAllBytes("src/i18n/localization_$_.qm", @())
-            }
-          }
-
-      - name: Compile Qt Resources
-        run: pyside6-rcc source.qrc -o source_rc.py
-
-      - name: Build with Nuitka (onefile mode)
+      - name: Build with Nuitka
         uses: Nuitka/Nuitka-Action@main
         with:
-          script-name: main.py
-          mode: onefile                    # ✅ Correct: single executable
+          nuitka-version: main
+          script-name: src/main.py
+          mode: standalone
           enable-plugins: pyside6
-          windows-console-mode: disable
-          windows-icon-from-ico: src/gui/resources/imgs/icon.ico
-          include-data-dir: |
-            src/i18n=src/i18n
-            src/gui/styles=src/gui/styles
-            src/gui/resources/fonts=src/gui/resources/fonts
-            src/gui/resources/imgs=src/gui/resources/imgs
-            src/gui/resources/svg=src/gui/resources/svg
-          include-module: src
+          include-module: |
+            app
+            main_window
+          include-package: |
+            controllers
+            data_models
+            models
+            plugins
+            services
+            ui
+            utils
+            widgets
+          output-filename: Ganzabara
           output-dir: build_output
+          windows-console-mode: disable
+          windows-icon-from-ico: src/resources/images/icon.ico
+          company-name: Vahrka
+          product-name: Ganzabara
+          file-version: 1.0.0.0
+          product-version: 1.0.0.0
+          file-description: "Ganzabara Accounting Software"
+          copyright: "Copyright © 2025 Vahrka. All rights reserved."
+          lto: yes
           assume-yes-for-downloads: true
+
+      - name: Package standalone folder
+        shell: bash
+        run: |
+          cd build_output
+          DIST_DIR=$(find . -maxdepth 1 -type d -name "*.dist" | head -n 1)
+          echo "Dist folder: $DIST_DIR"
+          7z a -tzip "Ganzabara-windows-x64.zip" "$DIST_DIR/*"
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: YourApp-Windows-x64
-          path: build_output/*.exe
+          name: Ganzabara-Windows-x64
+          path: build_output/Ganzabara-windows-x64.zip
+          if-no-files-found: error
