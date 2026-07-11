@@ -1,4 +1,4 @@
-name: Build Android APK
+name: Build Android Application
 
 on:
   workflow_dispatch:
@@ -8,6 +8,7 @@ permissions:
 
 jobs:
   build-android:
+    name: Build Android Application
     runs-on: ubuntu-22.04
 
     steps:
@@ -16,8 +17,8 @@ jobs:
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '17'
+          distribution: "temurin"
+          java-version: "17"
 
       - name: Install system packages
         run: |
@@ -32,7 +33,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Install Python dependencies
         run: |
@@ -46,10 +47,10 @@ jobs:
           if [ ! -f "pysidedeploy.spec" ]; then
             cat > pysidedeploy.spec <<-EOF
           [app]
-          name = MyPySide6App
-          package_name = org.example.mypyside6app
+          name = Ganzabara
+          package_name = ac.soft.ganzabara
           version = 1.0.0
-          main_script = main.py
+          main_script = src/main.py
           target = android
           requirements = PySide6
           android_permissions = INTERNET
@@ -65,15 +66,16 @@ jobs:
 
       - name: Ensure translation files exist (if referenced)
         run: |
-          if [ -f "source.qrc" ]; then
-            grep -oE 'src/i18n/[^"]+\.qm' source.qrc | while read -r qm_path; do
-              mkdir -p "$(dirname "$qm_path")"
-              touch "$qm_path"
+          if [ -f "src/source.qrc" ]; then
+            grep -oE 'resources/locales/[^"]+\.qm' src/source.qrc | while read -r qm_path; do
+              mkdir -p "src/$(dirname "$qm_path")"
+              touch "src/$qm_path"
             done
           fi
 
       - name: Compile Qt resources
         run: |
+          cd src
           if grep -q '<file' source.qrc; then
             pyside6-rcc source.qrc -o source_rc.py
           else
@@ -94,12 +96,10 @@ jobs:
         id: find_apk
         run: |
           echo "Searching for APK..."
-          # List directories to help debug
           echo "Current directory contents:"
           ls -la
           echo ""
           echo "Searching common locations:"
-          # Search in the entire project
           APK_PATH=$(find . -type f -name "*.apk" -not -path "./android-sdk/*" | head -1)
           if [ -z "$APK_PATH" ]; then
             APK_PATH=$(find ~/.pyside6-android-deploy -type f -name "*.apk" 2>/dev/null | head -1)
@@ -117,14 +117,14 @@ jobs:
           fi
           echo "APK found: $APK_PATH"
           mkdir -p final_artifacts
-          cp "$APK_PATH" final_artifacts/MyApp-android.apk
-          echo "apk_path=final_artifacts/MyApp-android.apk" >> $GITHUB_OUTPUT
+          cp "$APK_PATH" final_artifacts/Ganzabara-android.apk
+          echo "apk_path=final_artifacts/Ganzabara-android.apk" >> $GITHUB_OUTPUT
 
       - name: Upload APK as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: PySide6-Android-APK
-          path: final_artifacts/MyApp-android.apk
+          name: Ganzabara-Android-APK
+          path: final_artifacts/Ganzabara-android.apk
           retention-days: 7
 
       - name: Push APK to software-version branch
@@ -142,8 +142,8 @@ jobs:
           fi
 
           find . -name "*.apk" -type f -not -path "./.git/*" -delete
-          cp final_artifacts/MyApp-android.apk ./MyApp-android.apk
+          cp final_artifacts/Ganzabara-android.apk ./Ganzabara-android.apk
 
-          git add MyApp-android.apk
+          git add Ganzabara-android.apk
           git commit -m "Update Android APK - $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
           git push origin "$TARGET_BRANCH" --force

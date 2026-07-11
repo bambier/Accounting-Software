@@ -76,8 +76,8 @@ Contact **Vahrka** for:
 ### Basic Setup
 
 ```bash
-git clone https://github.com/Vahrka/Accounting-Software
-cd Accounting-Software
+git clone https://github.com/Vahrka/Ganzabara
+cd Ganzabara
 pip install -r requirements.txt
 python3 main.py
 ```
@@ -85,8 +85,7 @@ python3 main.py
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=Vahrka/Accounting-Software&type=Date)](https://www.star-history.com/#Vahrka/Accounting-Software&Date)
-
+[![Star History Chart](https://api.star-history.com/svg?repos=Vahrka/Ganzabara&type=Date)](https://www.star-history.com/#Vahrka/Ganzabara&Date)
 
 
 

@@ -67,14 +67,14 @@ class Menubar:
     @Slot()
     def open_contact(self):
         """Open the contact URL in the web browser."""
-        url = QUrl("https://github.com/Vahrka/Accounting-Software/discussions")
+        url = QUrl("https://github.com/Vahrka/Ganzabara/discussions")
         if not QDesktopServices.openUrl(url):
             logger.error(f"Failed to open URL: {url}")
 
     @Slot()
     def open_info(self):
         """Open the info URL in the web browser."""
-        url = QUrl("https://github.com/Vahrka/Accounting-Software")
+        url = QUrl("https://github.com/Vahrka/Ganzabara")
         if not QDesktopServices.openUrl(url):
             logger.error(f"Failed to open URL: {url}")
 

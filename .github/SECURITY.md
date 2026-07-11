@@ -19,7 +19,7 @@ Below is a list of the operating systems and versions currently supported with s
 We take security seriously and appreciate your efforts to responsibly disclose any vulnerabilities. If you discover a security issue, please follow these steps:
 
 1. **Discuss the Vulnerability:**  
-   Before submitting a report, please open a discussion in our [GitHub Issues](https://github.com/Vahrka/Accounting-Software//issues) to describe the vulnerability. This allows us to evaluate the issue and determine if it requires further investigation.
+   Before submitting a report, please open a discussion in our [GitHub Issues](https://github.com/Vahrka/Ganzabara//issues) to describe the vulnerability. This allows us to evaluate the issue and determine if it requires further investigation.
 
 2. **Submit a Formal Report (If Accepted):**  
    If the vulnerability is accepted after the initial discussion, you will be asked to submit a formal report via email. Include the following details:
