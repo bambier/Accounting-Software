@@ -1,0 +1,8 @@
+{
+    "autopep8.args": [
+        "--max-line-length=160"
+    ],
+    "python.analysis.extraPaths": [
+        "src/*",
+    ],
+}

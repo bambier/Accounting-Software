@@ -153,7 +153,7 @@ class Ui_MainWindow(object):
     # setupUi
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Accounting Software", None))
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Ganzabara", None))
         self.actionContact.setText(QCoreApplication.translate("MainWindow", u"Contact", None))
 #if QT_CONFIG(shortcut)
         self.actionContact.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+F1", None))

@@ -17,7 +17,7 @@ BASE_DIR = Path(__file__).parent.parent.parent
 # UI Settings
 
 # Application Metadata
-APP_NAME = 'Accounting Software'
+APP_NAME = 'Ganzabara'
 APP_VERSION = '1.0.0'
 ORGANIZATION_DOMAIN = 'ac.soft'
 ORGANIZATION_NAME = 'Free Tech'

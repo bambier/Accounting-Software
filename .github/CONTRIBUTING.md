@@ -1,6 +1,6 @@
-# Contributing to AccounterPro
+# Contributing to Ganzabara
 
-First, thank you for considering contributing to AccounterPro.
+First, thank you for considering contributing to Ganzabara.
 
 Our goal is to build a clean, maintainable, cross-platform accounting application with a modular architecture, high code quality, and long-term maintainability.
 
@@ -291,4 +291,4 @@ If you are unsure whether something belongs in the project, please open an Issue
 
 We would rather discuss a proposal early than reject a large pull request later.
 
-Thank you for helping improve AccounterPro.
+Thank you for helping improve Ganzabara.

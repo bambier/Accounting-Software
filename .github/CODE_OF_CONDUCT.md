@@ -2,7 +2,7 @@
 
 ## Our Commitment
 
-AccounterPro is committed to fostering a professional, respectful, and collaborative environment for everyone.
+Ganzabara is committed to fostering a professional, respectful, and collaborative environment for everyone.
 
 We believe that open-source software thrives through mutual respect, technical excellence, intellectual honesty, and constructive collaboration.
 
@@ -57,7 +57,7 @@ The following behavior is prohibited in all official project spaces:
 
 # Human Rights and Freedom
 
-AccounterPro supports the universal principles of human rights, individual liberty, freedom of expression, and human dignity.
+Ganzabara supports the universal principles of human rights, individual liberty, freedom of expression, and human dignity.
 
 The project does not provide a platform for promoting, defending, or glorifying governments, organizations, or ideologies that systematically violate fundamental human rights.
 
@@ -69,7 +69,7 @@ Respect for human dignity is a fundamental value of this community.
 
 # Political Propaganda
 
-AccounterPro is a software project, not a political platform.
+Ganzabara is a software project, not a political platform.
 
 Project spaces—including issues, pull requests, discussions, documentation, commit messages, and community channels—must not be used for:
 
@@ -112,7 +112,7 @@ Possible actions include:
 - Removal of inappropriate content
 - Temporary suspension
 - Permanent removal from the project
-- Permanent ban from all official AccounterPro communities
+- Permanent ban from all official Ganzabara communities
 
 Serious violations may result in an immediate permanent ban without prior warning.
 
@@ -133,7 +133,7 @@ Maintainers reserve the right to determine appropriate enforcement actions based
 
 # Scope
 
-This Code of Conduct applies to all official AccounterPro spaces, including:
+This Code of Conduct applies to all official Ganzabara spaces, including:
 
 - GitHub Issues
 - Pull Requests
@@ -164,8 +164,8 @@ Retaliation against anyone making a good-faith report is itself considered a vio
 
 # Our Community
 
-AccounterPro welcomes contributors from around the world who share a commitment to professionalism, technical excellence, mutual respect, and the fundamental values of human dignity and individual freedom.
+Ganzabara welcomes contributors from around the world who share a commitment to professionalism, technical excellence, mutual respect, and the fundamental values of human dignity and individual freedom.
 
 Our differences in culture, nationality, language, and background strengthen the project. What unites us is our commitment to building reliable software in an environment where people are treated with respect and where authoritarian propaganda, harassment, and the justification of human rights abuses have no place.
 
-Thank you for helping make AccounterPro a professional, welcoming, and principled open-source project.
+Thank you for helping make Ganzabara a professional, welcoming, and principled open-source project.

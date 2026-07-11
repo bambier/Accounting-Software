@@ -7,6 +7,8 @@ from models import (create_tables, db_manager, init_database,
 from utils.logger import get_logger
 from utils.settings import BASE_DIR
 
+from .settings import APP_NAME
+
 logger = get_logger()
 
 # Database Path exists
@@ -22,7 +24,7 @@ def check_db_path_exist() -> Path:
 def get_database_path() -> Path:
     """Get the path to the SQLite database file"""
     data_dir = check_db_path_exist()
-    return data_dir / 'accounterpro.db'
+    return data_dir / f'{APP_NAME}.db'
 
 
 def initialize_database(path: Path | str) -> None:

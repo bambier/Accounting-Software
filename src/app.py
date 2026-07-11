@@ -172,10 +172,10 @@ class Application:
             self.app_translator = QTranslator(self.app)
 
             # Try loading from resources
-            if self.app_translator.load(app_lang, "AccounterPro", "_", ":/locales"):
+            if self.app_translator.load(app_lang, APP_NAME, "_", ":/locales"):
                 self.app.installTranslator(self.app_translator)
                 self.translators.append(self.app_translator)
-                logger.info(f"Loaded app translations: AccounterPro_{app_lang}.qm")
+                logger.info(f"Loaded app translations: {APP_NAME}{app_lang}.qm")
             elif self.app_translator.load(f":/locales/{app_lang}"):
                 self.app.installTranslator(self.app_translator)
                 self.translators.append(self.app_translator)
