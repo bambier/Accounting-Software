@@ -1,8 +1,8 @@
 # AccounterPro - Free Accounting Suite
 
 [![Non-Commercial License](https://img.shields.io/badge/License-NCHL--1.0-red.svg)](https://yourdomain.com/license)
-[![Platform: Cross-Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://pyside.org)
-[![Python 3.12+](https://img.shields.io/badge/Python-3.12%2B-blue.svg)](https://python.org)
+[![Platform: Cross-Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Android%20%7C%20Linux-lightgrey.svg)](https://pyside.org)
+[![Python 3.12+](https://img.shields.io/badge/Python-3.14%2B-blue.svg)](https://python.org)
 
 ![Software Interface](images/screenshots001.png)  
 
