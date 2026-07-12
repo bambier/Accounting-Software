@@ -2,7 +2,10 @@ import logging
 import platform
 import subprocess
 
+from .settings import APP_NAME, LOG_LEVEL
+
 __all__ = ["get_logger"]
+
 
 # ANSI color codes
 COLORS = {
@@ -29,7 +32,7 @@ class ColoredFormatter(logging.Formatter):
         return super().format(record)
 
 
-def get_logger(name: str = "AccountingApp", level=logging.DEBUG) -> logging.Logger:
+def get_logger(name: str = APP_NAME, level=LOG_LEVEL) -> logging.Logger:
     """Set up and return a customized logger."""
     # Create or get the logger
     logger = logging.getLogger(name)
@@ -38,18 +41,21 @@ def get_logger(name: str = "AccountingApp", level=logging.DEBUG) -> logging.Logg
     # Check if the logger already has handlers to avoid duplication
     if not logger.handlers:
         # Create a console handler
-        console_handler = logging.StreamHandler()
-        console_handler.setLevel(level)
+        if LOG_LEVEL == 50:
+            logger_handler = logging.FileHandler(f"{APP_NAME}.log")
+        else:
+            logger_handler = logging.StreamHandler()
+        logger_handler.setLevel(level)
 
         # Create a formatter and add it to the handler
         formatter = ColoredFormatter(
             fmt="%(levelname)s - %(filename)s:%(lineno)d - %(message)s",
             datefmt="%Y-%m-%d %H:%M:%S"
         )
-        console_handler.setFormatter(formatter)
+        logger_handler.setFormatter(formatter)
 
         # Add the handler to the logger
-        logger.addHandler(console_handler)
+        logger.addHandler(logger_handler)
 
     return logger
 

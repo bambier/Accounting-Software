@@ -1,6 +1,6 @@
 # 🏛️ Ganzabara - Free Accounting Suite
 
-[![Non-Commercial License](https://img.shields.io/badge/License-NCHL--1.0-red.svg)](LICENSE)
+[![Non-Commercial License](https://img.shields.io/badge/License-NCHL--1.1-red.svg)](LICENSE)
 [![Platform: Cross-Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Android%20%7C%20Linux-lightgrey.svg)](src/pyproject.toml)
 [![Python 3.12+](https://img.shields.io/badge/Python-3.14%2B-blue.svg)](https://python.org)
 
@@ -20,7 +20,6 @@ As recorded in the Persepolis Treasury tablets, these powerful officials were en
 - Approving payments, rations, and financial distributions
 - Reporting directly to central authorities
 
-The name carries the weight of **trust, authority, and financial stewardship**—values we embed into every line of this software. Just as the ancient *Ganzabaras* safeguarded the empire's treasures, our software safeguards your business's financial future.
 
 > *"To bear the treasure" — from Old Persian **ganza-** (treasury) + **bara-** (bearer/keeper)*
 

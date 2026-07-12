@@ -55,10 +55,25 @@ class Application:
         self.app.setOrganizationName(ORGANIZATION_NAME)
 
         # Configure application components
-        self.__setup_fonts()
-        self.__setup_icon()
-        self.__setup_translator()
-        self.__setup_stylesheet()
+
+        try:
+            self.__setup_fonts()
+        except Exception as e:
+            logger.error(f"Couldn't setup fonts.\n{e}")
+
+        try:
+            self.__setup_icon()
+        except Exception as e:
+            logger.error(f"Couldn't setup icon.\n{e}")
+
+        try:
+            self.__setup_translator()
+        except Exception as e:
+            logger.error(f"Couldn't setup translator.\n{e}")
+        try:
+            self.__setup_stylesheet()
+        except Exception as e:
+            logger.error(f"Couldn't setup stylesheet.\n{e}")
 
     def run(self) -> QApplication:
         """
@@ -105,8 +120,8 @@ class Application:
             if font_id == -1:
                 logger.error(f"Failed to load font: {font_file}")
         else:
-            font_dic = QSettings(self.app).value("font-family", defaultValue="Vazirmatn RD UI FD")
-            font = list(font_dic.keys()) # pyright: ignore[reportAttributeAccessIssue]
+            font_dic = QSettings(self.app).value("font-family", defaultValue={"Vazirmatn RD UI FD": 250})
+            font = list(font_dic.keys())  # pyright: ignore[reportAttributeAccessIssue]
             self.app.setFont(QFont(font[0], 10))
 
     def __setup_icon(self):

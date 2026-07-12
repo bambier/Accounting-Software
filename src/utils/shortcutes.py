@@ -15,6 +15,7 @@ logger = get_logger()
 
 
 def check_db_path_exist() -> Path:
+    print(BASE_DIR)
     data_dir = BASE_DIR / 'data'
     data_dir.mkdir(exist_ok=True, parents=True)
     return data_dir
