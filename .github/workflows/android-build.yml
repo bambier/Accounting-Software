@@ -33,10 +33,10 @@ jobs:
             git \
             wget
 
-      - name: Set up Python 3.14
+      - name: Set up Python 3.11 (required for Android build)
         uses: actions/setup-python@v5
         with:
-          python-version: "3.14"
+          python-version: "3.11"
           cache: "pip"
 
       - name: Install project dependencies
@@ -47,7 +47,6 @@ jobs:
 
       - name: Install Android deployment requirements
         run: |
-          # These are required by pyside6-android-deploy but not listed in your requirements.txt
           pip install pkginfo tqdm packaging==24.1
 
       - name: Install Android SDK & NDK
