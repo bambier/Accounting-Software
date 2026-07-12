@@ -84,6 +84,11 @@ jobs:
           pip uninstall PySide6 -y
           qtpip download PySide6 --android --arch aarch64
 
+      - name: Find downloaded Android wheels
+        run: |
+          find $HOME -name "PySide6*-android*.whl"
+          find . -name "PySide6*-android*.whl"
+          
       - name: Run pyside6-android-deploy
         env:
           GANZABARA_ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
