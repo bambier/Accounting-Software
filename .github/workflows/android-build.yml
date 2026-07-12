@@ -79,7 +79,8 @@ jobs:
           GANZABARA_ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           GANZABARA_ANDROID_KEYALIAS_PASSWORD: ${{ secrets.ANDROID_KEYALIAS_PASSWORD }}
         run: |
-          pyside6-android-deploy -c pysidedeploy.spec
+          cd ./src
+          pyside6-android-deploy -c ../pysidedeploy.spec
 
       - name: Debug - List files
         run: |
