@@ -3,7 +3,7 @@ name: Deploy Android
 on:
   push:
     tags:
-      - "v*"
+      - 'v*'
   workflow_dispatch:
 
 jobs:
@@ -36,14 +36,19 @@ jobs:
       - name: Set up Python 3.11 (required for Android build)
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
-          cache: "pip"
+          python-version: '3.11'
+          cache: 'pip'
 
       - name: Install project dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install buildozer==1.5.0 cython==0.29.33 jinja2
+
+      - name: Downgrade numpy for Python 3.11 compatibility
+        run: |
+          # numpy 2.5.1 requires Python >=3.12; install the latest 2.4.x that works with 3.11
+          pip install numpy==2.4.6
 
       - name: Install Android deployment requirements
         run: |

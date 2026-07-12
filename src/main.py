@@ -34,6 +34,8 @@ if sys.platform == "darwin" or platform.system() == "Darwin":
     logger.critical(message)
     sys.exit(message)
 
+# TODO: add sha256sum check for integrity of application
+
 
 def main():
     try:
