@@ -4,7 +4,7 @@ name: Deploy Android
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
   workflow_dispatch:
 
 jobs:
@@ -37,8 +37,8 @@ jobs:
       - name: Set up Python 3.11 (required for Android build)
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
-          cache: 'pip'
+          python-version: "3.11"
+          cache: "pip"
 
       - name: Install Android build tools
         run: |
@@ -62,20 +62,21 @@ jobs:
         run: |
           cp src/main.py ./main.py
 
+      - name: Download PySide6 Android wheels from Qt official repository
+        run: |
+          mkdir -p wheels
+          cd wheels
+          wget -q https://download.qt.io/official_releases/QtForPython/pyside6/PySide6-6.11.1/PySide6-6.11.1-6.11.1-cp36-abi3-android_21_arm64_v8a.whl
+          wget -q https://download.qt.io/official_releases/QtForPython/pyside6/PySide6-6.11.1/shiboken6-6.11.1-6.11.1-cp36-abi3-android_21_arm64_v8a.whl
+          cd ..
+          echo "PYSIDE_WHEEL=$PWD/wheels/PySide6-6.11.1-6.11.1-cp36-abi3-android_21_arm64_v8a.whl" >> $GITHUB_ENV
+          echo "SHIBOKEN_WHEEL=$PWD/wheels/shiboken6-6.11.1-6.11.1-cp36-abi3-android_21_arm64_v8a.whl" >> $GITHUB_ENV
+
       - name: Fix pysidedeploy.spec for Android
         run: |
           sed -i 's/^project_dir = .*/project_dir = .\//' pysidedeploy.spec
           sed -i 's/^input_file = .*/input_file = main.py/' pysidedeploy.spec
           sed -i 's/numpy==2.5.1/numpy==2.4.6/g' pysidedeploy.spec
-
-      - name: Download PySide6 Android wheels
-        run: |
-          mkdir -p wheels
-          pip download --only-binary=:all: --platform android_21_arm64_v8a --python-version 3.11 --dest wheels PySide6==6.11.1 shiboken6==6.11.1
-          PYSIDE_WHEEL=$(ls wheels/PySide6-*.whl | head -1)
-          SHIBOKEN_WHEEL=$(ls wheels/shiboken6-*.whl | head -1)
-          echo "PYSIDE_WHEEL=$PWD/$PYSIDE_WHEEL" >> $GITHUB_ENV
-          echo "SHIBOKEN_WHEEL=$PWD/$SHIBOKEN_WHEEL" >> $GITHUB_ENV
 
       - name: Install Android SDK & NDK
         run: |
