@@ -47,7 +47,7 @@ jobs:
 
       - name: Install project dependencies (excluding numpy)
         run: |
-          grep -v "^numpy==" requirements.txt > requirements_android.txt
+          grep -v "^numpy" noversion.requirements.txt > requirements_android.txt
           pip install -r requirements_android.txt
 
       - name: Install compatible numpy version
@@ -58,25 +58,16 @@ jobs:
         run: |
           pip install pkginfo tqdm packaging==24.1
 
-      - name: Copy main.py to root (Android requires it at application directory)
+      - name: Copy main.py to root
         run: |
           cp src/main.py ./main.py
-
-      - name: Download PySide6 Android wheels from Qt official repository
-        run: |
-          mkdir -p wheels
-          cd wheels
-          wget -q https://download.qt.io/official_releases/QtForPython/pyside6/PySide6-6.11.1/PySide6-6.11.1-6.11.1-cp36-abi3-android_21_arm64_v8a.whl
-          wget -q https://download.qt.io/official_releases/QtForPython/pyside6/PySide6-6.11.1/shiboken6-6.11.1-6.11.1-cp36-abi3-android_21_arm64_v8a.whl
-          cd ..
-          echo "PYSIDE_WHEEL=$PWD/wheels/PySide6-6.11.1-6.11.1-cp36-abi3-android_21_arm64_v8a.whl" >> $GITHUB_ENV
-          echo "SHIBOKEN_WHEEL=$PWD/wheels/shiboken6-6.11.1-6.11.1-cp36-abi3-android_21_arm64_v8a.whl" >> $GITHUB_ENV
 
       - name: Fix pysidedeploy.spec for Android
         run: |
           sed -i 's/^project_dir = .*/project_dir = .\//' pysidedeploy.spec
           sed -i 's/^input_file = .*/input_file = main.py/' pysidedeploy.spec
           sed -i 's/numpy==2.5.1/numpy==2.4.6/g' pysidedeploy.spec
+          sed -i 's/numpy>=/numpy==2.4.6/g' pysidedeploy.spec
 
       - name: Install Android SDK & NDK
         run: |
@@ -105,9 +96,7 @@ jobs:
           GANZABARA_ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           GANZABARA_ANDROID_KEYALIAS_PASSWORD: ${{ secrets.ANDROID_KEYALIAS_PASSWORD }}
         run: |
-          pyside6-android-deploy -c pysidedeploy.spec --force \
-            --wheel-pyside "$PYSIDE_WHEEL" \
-            --wheel-shiboken "$SHIBOKEN_WHEEL"
+          pyside6-android-deploy -c pysidedeploy.spec --force
 
       - name: Debug - List files
         run: |
