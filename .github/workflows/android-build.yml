@@ -4,7 +4,7 @@ name: Deploy Android
 on:
   push:
     tags:
-      - "v*"
+      - 'v*'
   workflow_dispatch:
 
 jobs:
@@ -34,16 +34,16 @@ jobs:
             git \
             wget
 
-      - name: Set up Python 3.11 (required for Android build)
+      - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
-          cache: "pip"
+          python-version: '3.11'
+          cache: 'pip'
 
       - name: Install Android build tools
         run: |
           python -m pip install --upgrade pip
-          pip install buildozer cython jinja2 gitpython
+          pip install buildozer cython jinja2
 
       - name: Install project dependencies
         run: |
@@ -53,40 +53,24 @@ jobs:
         run: |
           pip install pkginfo tqdm packaging
 
-      - name: Download Android NDK, SDK, and PySide6 wheels using Qt's script
-        run: |
-          git clone --depth 1 https://code.qt.io/pyside/pyside-setup
-          python pyside-setup/tools/cross_compile_android/main.py --download-only --skip-update --auto-accept-license
-
-      - name: Locate downloaded PySide6 wheels
-        id: find_wheels
-        run: |
-          PYSIDE_WHEEL=$(find ~/.pyside6-android-deploy -name "PySide6-*.whl" | head -1)
-          SHIBOKEN_WHEEL=$(find ~/.pyside6-android-deploy -name "shiboken6-*.whl" | head -1)
-          echo "PYSIDE_WHEEL=$PYSIDE_WHEEL" >> $GITHUB_OUTPUT
-          echo "SHIBOKEN_WHEEL=$SHIBOKEN_WHEEL" >> $GITHUB_OUTPUT
-          echo "Found PySide wheel: $PYSIDE_WHEEL"
-          echo "Found Shiboken wheel: $SHIBOKEN_WHEEL"
-
-      - name: Copy main.py to root and fix spec file
+      - name: Copy main.py to root
         run: |
           cp src/main.py ./main.py
+
+      - name: Fix pysidedeploy.spec for Android
+        run: |
           sed -i 's/^project_dir = .*/project_dir = .\//' pysidedeploy.spec
           sed -i 's/^input_file = .*/input_file = main.py/' pysidedeploy.spec
-          # Remove version pins from numpy and pandas in spec file
+          # Remove version pins from numpy and pandas
           sed -i 's/numpy==[0-9.]*/numpy/g' pysidedeploy.spec
           sed -i 's/pandas==[0-9.]*/pandas/g' pysidedeploy.spec
 
       - name: Run pyside6-android-deploy
         env:
-          ANDROID_NDK_ROOT: /home/runner/.pyside6-android-deploy/ndk
-          ANDROID_SDK_ROOT: /home/runner/.pyside6-android-deploy/sdk
           GANZABARA_ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           GANZABARA_ANDROID_KEYALIAS_PASSWORD: ${{ secrets.ANDROID_KEYALIAS_PASSWORD }}
         run: |
-          pyside6-android-deploy -c pysidedeploy.spec --force \
-            --wheel-pyside "${{ steps.find_wheels.outputs.PYSIDE_WHEEL }}" \
-            --wheel-shiboken "${{ steps.find_wheels.outputs.SHIBOKEN_WHEEL }}"
+          pyside6-android-deploy -c pysidedeploy.spec --force
 
       - name: Debug - List files
         run: |
