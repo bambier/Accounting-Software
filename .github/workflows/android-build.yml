@@ -4,7 +4,7 @@ name: Deploy Android
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
   workflow_dispatch:
 
 jobs:
@@ -37,8 +37,8 @@ jobs:
       - name: Set up Python 3.11 (required for Android build)
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
-          cache: 'pip'
+          python-version: "3.11"
+          cache: "pip"
 
       - name: Install Android build tools
         run: |
@@ -58,9 +58,17 @@ jobs:
         run: |
           pip install pkginfo tqdm packaging==24.1
 
+      - name: Copy main.py to root (Android requires it at application directory)
+        run: |
+          cp src/main.py ./main.py
+
       - name: Fix pysidedeploy.spec for Android
         run: |
+          # Change project_dir to root and input_file to main.py
+          sed -i 's/^project_dir = .*/project_dir = .\//' pysidedeploy.spec
           sed -i 's/^input_file = .*/input_file = main.py/' pysidedeploy.spec
+          # Downgrade numpy in packages and buildozer requirements
+          sed -i 's/numpy==2.5.1/numpy==2.4.6/g' pysidedeploy.spec
 
       - name: Install Android SDK & NDK
         run: |
@@ -99,14 +107,18 @@ jobs:
           ls -la ./src/bin/ 2>/dev/null || echo "bin directory not found"
           echo "=== Contents of ./src/.buildozer ==="
           ls -la ./src/.buildozer/ 2>/dev/null || echo ".buildozer directory not found"
+          echo "=== Contents of ./ ==="
+          ls -la ./ || echo "root directory not found"
           echo "=== Searching for APK/AAB ==="
-          find ./src -name "*.apk" -o -name "*.aab" 2>/dev/null || echo "No APK/AAB found"
+          find . -name "*.apk" -o -name "*.aab" 2>/dev/null || echo "No APK/AAB found"
 
       - name: Upload APK/AAB artifacts
         uses: actions/upload-artifact@v4
         with:
           name: ganzabara-android
           path: |
+            ./*.apk
+            ./*.aab
             ./src/*.apk
             ./src/*.aab
             ./src/bin/*.apk
