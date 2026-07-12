@@ -1,3 +1,4 @@
+# .github/workflows/deploy-android.yml
 name: Deploy Android
 
 on:
@@ -46,18 +47,20 @@ jobs:
 
       - name: Install project dependencies (excluding numpy)
         run: |
-          # Remove numpy line from requirements to avoid version conflict
           grep -v "^numpy==" requirements.txt > requirements_android.txt
           pip install -r requirements_android.txt
 
       - name: Install compatible numpy version
         run: |
-          # numpy 2.5.1 requires Python 3.12+; use 2.4.6 for Python 3.11
           pip install numpy==2.4.6
 
       - name: Install Android deployment requirements
         run: |
           pip install pkginfo tqdm packaging==24.1
+
+      - name: Fix pysidedeploy.spec for Android
+        run: |
+          sed -i 's/^input_file = .*/input_file = main.py/' pysidedeploy.spec
 
       - name: Install Android SDK & NDK
         run: |
@@ -72,6 +75,13 @@ jobs:
           sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
           sdkmanager "ndk;25.2.9519653"
 
+      - name: Cache Android SDK
+        uses: actions/cache@v4
+        with:
+          path: android-sdk
+          key: android-sdk-${{ runner.os }}-${{ hashFiles('**/pysidedeploy.spec') }}
+          restore-keys: android-sdk-
+
       - name: Run pyside6-android-deploy
         env:
           ANDROID_SDK_ROOT: ${{ github.workspace }}/android-sdk
@@ -81,7 +91,7 @@ jobs:
         run: |
           pyside6-android-deploy -c pysidedeploy.spec --force
 
-      - name: Debug - List all files in src directory
+      - name: Debug - List files
         run: |
           echo "=== Contents of ./src ==="
           ls -la ./src/ || echo "src directory not found"
@@ -89,7 +99,7 @@ jobs:
           ls -la ./src/bin/ 2>/dev/null || echo "bin directory not found"
           echo "=== Contents of ./src/.buildozer ==="
           ls -la ./src/.buildozer/ 2>/dev/null || echo ".buildozer directory not found"
-          echo "=== Searching for APK/AAB files ==="
+          echo "=== Searching for APK/AAB ==="
           find ./src -name "*.apk" -o -name "*.aab" 2>/dev/null || echo "No APK/AAB found"
 
       - name: Upload APK/AAB artifacts
