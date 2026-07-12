@@ -81,7 +81,7 @@ jobs:
           git clone https://code.qt.io/pyside/pyside-setup
           cd pyside-setup
           python tools/cross_compile_android/main.py --download-only --skip-update --auto-accept-license
-          pip uninstall PySide6
+          pip uninstall PySide6 -y
           qtpip download PySide6 --android --arch aarch64
 
       - name: Run pyside6-android-deploy
