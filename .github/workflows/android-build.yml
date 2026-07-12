@@ -4,7 +4,7 @@ name: Deploy Android
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
   workflow_dispatch:
 
 jobs:
@@ -37,13 +37,13 @@ jobs:
       - name: Set up Python 3.11 (required for Android build)
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
-          cache: 'pip'
+          python-version: "3.11"
+          cache: "pip"
 
       - name: Install Android build tools
         run: |
           python -m pip install --upgrade pip
-          pip install buildozer cython jinja2
+          pip install buildozer cython jinja2 gitpython
 
       - name: Install project dependencies
         run: |
