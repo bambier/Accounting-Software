@@ -1,4 +1,5 @@
 # .github/workflows/deploy-android.yml
+
 name: Deploy Android
 
 on:
@@ -24,106 +25,142 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v4
 
-      - name: Install SDKmanager plugins
+      - name: Install Android SDK packages
         run: |
-          sdkmanager --install "platform-tools" "platforms;android-34" "build-tools;35.0.0" "ndk;26.1.10909125"
+          sdkmanager --install \
+            "platform-tools" \
+            "platforms;android-34" \
+            "build-tools;35.0.0" \
+            "ndk;26.1.10909125"
 
       - name: Install system dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y \
-          ant \
-          autoconf \
-          automake \
-          autopoint \
-          ccache \
-          cmake \
-          g++ \
-          gcc \
-          git \
-          lbzip2 \
-          libffi-dev \
-          libltdl-dev \
-          libtool \
-          libssl-dev \
-          make \
-          openjdk-17-jdk \
-          patch \
-          pkg-config \
-          python3 \
-          python3-dev \
-          python3-pip \
-          python3-venv \
-          sudo \
-          unzip \
-          wget \
-          zip \
-          tree
+            ant \
+            autoconf \
+            automake \
+            autopoint \
+            ccache \
+            cmake \
+            g++ \
+            gcc \
+            git \
+            lbzip2 \
+            libffi-dev \
+            libltdl-dev \
+            libtool \
+            libssl-dev \
+            make \
+            patch \
+            pkg-config \
+            python3-dev \
+            python3-venv \
+            unzip \
+            wget \
+            zip \
+            tree
 
-      - name: Set up Python 3.11
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
           cache: "pip"
 
-      - name: Install Android build tools
+      - name: Upgrade pip
         run: |
           python -m pip install --upgrade pip
-          pip install buildozer cython jinja2 wheel pkginfo tqdm packaging==24.1
+
+      - name: Install build dependencies
+        run: |
+          pip install \
+            buildozer \
+            cython \
+            jinja2 \
+            wheel \
+            pkginfo \
+            tqdm \
+            packaging==24.1 \
+            GitPython \
+            qtpip
 
       - name: Install project dependencies
         run: |
-          pip install --upgrade -r noversion.requirements.txt
-          pip install qtpip pip GitPython
+          pip install -r noversion.requirements.txt
 
-      - name: Setup pyside6-android-deploy requirements
+      - name: Download Qt for Android
         run: |
           git clone https://code.qt.io/pyside/pyside-setup
           cd pyside-setup
-          python tools/cross_compile_android/main.py --download-only --skip-update --auto-accept-license
-          pip uninstall PySide6 -y
-          qtpip download PySide6 --android --arch aarch64
 
-      - name: Find downloaded Android wheels
+          python tools/cross_compile_android/main.py \
+            --download-only \
+            --skip-update \
+            --auto-accept-license
+
+          cd ..
+
+          qtpip download PySide6 \
+            --android \
+            --arch aarch64
+
+      - name: Debug environment
         run: |
+          echo "========== Python =========="
+          python --version
+          which python
+
+          echo "========== importlib =========="
+          python - <<'PY'
+          import sys
+          import importlib
+
+          print(sys.version)
+          print(importlib)
+          print(getattr(importlib, "__file__", None))
+          print(hasattr(importlib, "util"))
+
+          import importlib.util
+          print(importlib.util)
+          PY
+
+          echo "========== Shadowing =========="
+          find . -name "importlib.py"
+          find . -type d -name "importlib"
+
+          echo "========== Wheels =========="
+          find $HOME -name "*.whl"
+          find . -name "*.whl"
+
+          echo "========== Android Wheels =========="
           find $HOME -name "PySide6*-android*.whl"
-          find . -name "PySide6*-android*.whl"
-          
+          find $HOME -name "shiboken6*-android*.whl"
+
       - name: Run pyside6-android-deploy
         env:
           GANZABARA_ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           GANZABARA_ANDROID_KEYALIAS_PASSWORD: ${{ secrets.ANDROID_KEYALIAS_PASSWORD }}
         run: |
-          cd ./src
-          pyside6-android-deploy -c ../pysidedeploy.spec --force
+          cd src
 
-      - name: Debug - List files
+          pyside6-android-deploy \
+            -c ../pysidedeploy.spec \
+            --force \
+            --verbose
+
+      - name: Debug output
+        if: always()
         run: |
-          echo "=== Contents of ./src ==="
-          ls -la ./src/ || echo "src directory not found"
-          echo "=== Contents of ./src/bin ==="
-          ls -la ./src/bin/ 2>/dev/null || echo "bin directory not found"
-          echo "=== Contents of ./src/.buildozer ==="
-          ls -la ./src/.buildozer/ 2>/dev/null || echo ".buildozer directory not found"
-          echo "=== Contents of ./ ==="
-          ls -la ./ || echo "root directory not found"
-          echo "=== Searching for APK/AAB ==="
-          find . -name "*.apk" -o -name "*.aab" 2>/dev/null || echo "No APK/AAB found"
-          echo "=== tree ==="
-          tree -I venv -I STRUCTURE -I images -I data
+          find . -name "*.apk"
+          find . -name "*.aab"
+          tree -L 4
 
-      - name: Upload APK/AAB artifacts
+      - name: Upload artifacts
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: ganzabara-android
-          path: |
-            ./*.apk
-            ./*.aab
-            ./src/*.apk
-            ./src/*.aab
-            ./src/bin/*.apk
-            ./src/bin/*.aab
-            ./src/.buildozer/*.apk
-            ./src/.buildozer/*.aab
           retention-days: 30
-        continue-on-error: true
+          path: |
+            **/*.apk
+            **/*.aab
